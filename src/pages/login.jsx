@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import { Divider } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { login } from '../services/userService';
+import { useNavigate } from 'react-router-dom';
 
 const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/;
 const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&-+=()])([a-zA-Z0-9]*).{8,}$/;
@@ -128,12 +129,17 @@ const useStyles = makeStyles({
 })
 function Login(props){
     const classes = useStyles()
+    const navigate = useNavigate()
 
   const [loginObj, setLoginObj] = useState({ emailId: '', password: '' })
   const [regexObj, setRegexObj] = useState({ emailBorder: false, emailHelper: '', passwordBorder: false, passwordHelper: '' })
 
   const openSignup = () => {
-    props.listenTologin1()
+    navigate('/signup')
+  }
+
+  const forgetPassword = () => {
+    navigate('/forgetPassword')
   }
 
   const takeEmail = (event) => {
@@ -210,7 +216,7 @@ function Login(props){
             </Box>
             <Box className={classes.texttitle}><span>Password</span>
               <TextField className={classes.passwordtext} onChange={takePassword} error={regexObj.passwordBorder} helperText={regexObj.passwordHelper} variant="outlined" size="small" />
-              <Button className={classes.texttitle1} size="x-small" variant='text'>Forget Password?</Button>
+              <Button className={classes.texttitle1} size="x-small" variant='text' onClick={forgetPassword}>Forget Password?</Button>
             </Box>
             <Box >
               <Button className={classes.loginbutton1} onClick={submit} variant="contained">Login</Button>

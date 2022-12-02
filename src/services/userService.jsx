@@ -11,3 +11,9 @@ export const register = (registerObj) => {
     console.log("created successfully")
     return response
 }
+
+export const forget = (fotgetObj) => {
+    let response = axios.post(`https://localhost:44365/api/User/ForgotPassword?email=${fotgetObj}`, fotgetObj)
+    console.log("forget password email sent successfully")
+    return response
+}

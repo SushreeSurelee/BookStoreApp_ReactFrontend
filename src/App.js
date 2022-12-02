@@ -1,6 +1,6 @@
 import Login from "./pages/login";
 import SignUp from "./pages/signup";
-import Switch from "./pages/switch";
+import Routerone from "./pages/router/router";
 import './App.css';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
     <div >
       {/* <Login /> */}
       {/* <SignUp /> */}
-      <Switch />
+      <Routerone />
     </div>
   );
 }

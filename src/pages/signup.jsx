@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { makeStyles } from '@mui/styles'
 import { register } from '../services/userService';
+import { useNavigate } from 'react-router-dom';
 
 const fnameRegex = /(^[A-Za-z]{3,16})([ ]{0,1})([A-Za-z]{3,16})?([ ]{0,1})?([A-Za-z]{3,16})?([ ]{0,1})?([A-Za-z]{3,16})/;
 const useremailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/;
@@ -97,12 +98,13 @@ const useStyles = makeStyles({
 function SignUp(props) {
 
     const classes = useStyles()
+    const navigate = useNavigate()
 
     const [signupObj, setSignUpObj] = useState({ fullName: "", emailId: "", password: "", mobileNumber: ""})
     const [regexObj, setRegexObj] = useState({ fullnameBorder: false, fullnameHelper: "", usernameBorder: false, usernameHelper: "", passwordBorder: false, passwordHelper: "", phoneBorder: false, phoneHelper: "" })
     
     const openLoginpage = () => {
-        props.listenTosignup1()
+        navigate('/')
     }
 
     const takeFullname = (event) => {
