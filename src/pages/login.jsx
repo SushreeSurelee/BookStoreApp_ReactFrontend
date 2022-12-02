@@ -47,7 +47,7 @@ const useStyles = makeStyles({
   },
   loginbutton: {
     fontSize: "25px !important",
-    fontWeight: 'bold',
+    fontWeight: 'bold !important',
     color: 'black !important',
     width: '40%',
     position: 'relative',
@@ -126,13 +126,15 @@ const useStyles = makeStyles({
   },
 
 })
-function Login(){
+function Login(props){
     const classes = useStyles()
 
   const [loginObj, setLoginObj] = useState({ emailId: '', password: '' })
   const [regexObj, setRegexObj] = useState({ emailBorder: false, emailHelper: '', passwordBorder: false, passwordHelper: '' })
 
-  
+  const openSignup = () => {
+    props.listenTologin1()
+  }
 
   const takeEmail = (event) => {
     setLoginObj(prevState => ({
@@ -200,7 +202,7 @@ function Login(){
         <Box className={classes.main1}>
           <Box className={classes.mainbutton}>
             <Button className={classes.loginbutton} >LOGIN</Button>
-            <Button className={classes.signupbutton} >SIGNUP</Button>
+            <Button className={classes.signupbutton} onClick={openSignup}>SIGNUP</Button>
           </Box>
           <Box className={classes.form}>
             <Box className={classes.texttitle}><span>Email Id</span>
