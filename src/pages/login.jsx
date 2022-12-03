@@ -195,10 +195,11 @@ function Login(props){
     if(emailTest===true && passwordTest===true){
       login(loginObj).then((response)=>{
         console.log(response)
+        localStorage.setItem("token",response.data.data)
+        navigate('/dashboard')
       }).catch((error)=>{
         console.log(error)
       })
-      console.log("login Success")
     }
   }
     return(
