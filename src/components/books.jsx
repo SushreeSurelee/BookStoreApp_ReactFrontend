@@ -5,12 +5,22 @@ import StarIcon from '@mui/icons-material/Star';
 import { makeStyles } from '@mui/styles'
 
 const useStyle = makeStyles({
+    main1:{
+        display:'flex',
+        flexDirection:'row',
+        border: '0px solid red',
+        justifyContent:'space-around',
+        marginLeft:'50px',
+        marginTop:'10px',
+        flexWrap:'wrap'
+    },
     main2: {
-        width: '20vw',
-        height: '45vh',
+        width: '15vw',
+        height: '40vh',
         border: '2px solid #D3D3D3',
         display: 'flex',
         flexDirection: 'column',
+        border: '0px solid red',
     },
     bookimage: {
         width: '100%',
@@ -105,11 +115,11 @@ const useStyle = makeStyles({
 function Books(props) {
     const classes = useStyle()
     return (
-        <div>
+        <Box className={classes.main1}>
             <Paper elevation={1} className={classes.main2}>
                 <Box className={classes.bookimage}>
                     <Box className={classes.bookimage2}>
-                        <img className={classes.bookimg} src=""/></Box>
+                        <img className={classes.bookimg} src={props.book.bookImage}/></Box>
                 </Box>
                 <Box className={classes.bookdetail}>
                     <Box className={classes.booktext}>
@@ -123,13 +133,13 @@ function Books(props) {
                             <Box className={classes.mark}>{props.book.ratingCount}</Box>
                         </Box>
                         <Box className={classes.bookprice}>
-                            <Box className={classes.bookdiscount}>{props.book.discountPrice}</Box>
-                            <Box className={classes.bookcost}>{props.book.actualPrice}</Box>
+                            <Box className={classes.bookdiscount}>Rs. {props.book.discountPrice}</Box>
+                            <Box className={classes.bookcost}>Rs.{props.book.actualPrice}</Box>
                         </Box>
                     </Box>
                 </Box>
             </Paper>
-        </div>
+        </Box>
     )
 }
 

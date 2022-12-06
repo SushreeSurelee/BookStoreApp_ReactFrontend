@@ -7,6 +7,8 @@ import Books from '../../components/books';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { getBookList } from '../../services/dataService';
+import BookDetails from '../../components/bookDetails/bookDetails';
+
 
 const useStyles = makeStyles({
     container2: {
@@ -57,16 +59,37 @@ const useStyles = makeStyles({
 
 function Dashboard() {
     const classes = useStyles()
+    
 
     const [bookList, setBookList] = useState([])
+    const [toggle, setToggle] = useState(false)
+    const [input, setInput] = useState({})
 
-    useEffect(() => {
+    const openBookSummary = (detailsObj) => {
+
+        setToggle(true);
+        console.log(detailsObj)
+        setInput(detailsObj)
+        console.log(detailsObj.bookId, " book details")
+    };
+
+    const openBookBack = () => {
+        setToggle(false)
+    }
+
+    
+
+    const getBooks = () => {
         getBookList().then((response) => {
             console.log(response)
             setBookList(response.data.data)
         }).catch((error) => {
             console.log(error)
         })
+    }
+
+    useEffect(() => {
+        getBooks()
     },[])
 
     return(
@@ -83,8 +106,8 @@ function Dashboard() {
                         </Box>
                     </Box>
                     <Box  sx={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
-                        {
-                            bookList.map((book) => (<Books key={book.bookId} book={book} />))
+                        { toggle ? <BookDetails openBookBack={openBookBack} bookId={input.bookId} bookName={input.bookName} bookImage={input.bookImage} author={input.author} bookRating={input.bookRating} quantity={input.quantity} discountPrice={input.discountPrice} actualPrice={input.actualPrice} bookDetail={input.bookDetail} />
+                            : bookList.map((book) => (<Box onClick={()=>openBookSummary(book)} > <Books key={book.bookId} book={book} /></Box>))
                         }
                     </Box>
                 </Box>
