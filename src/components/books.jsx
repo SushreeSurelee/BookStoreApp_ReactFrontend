@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
-import { makeStyles } from '@mui/styles'
+import { makeStyles } from '@mui/styles';
+import { useNavigate } from 'react-router-dom';
 
 const useStyle = makeStyles({
     main1:{
@@ -17,10 +18,9 @@ const useStyle = makeStyles({
     main2: {
         width: '15vw',
         height: '40vh',
-        border: '2px solid #D3D3D3',
+        border: '1px solid #D3D3D3',
         display: 'flex',
         flexDirection: 'column',
-        border: '0px solid red',
     },
     bookimage: {
         width: '100%',
@@ -114,12 +114,21 @@ const useStyle = makeStyles({
 
 function Books(props) {
     const classes = useStyle()
+    const navigate = useNavigate()
+
+
+    const bookdetails = () =>{
+        const id = props.book.bookId;
+        localStorage.setItem("bookid",id)
+        navigate('/BookDetail')
+    }
+
     return (
         <Box className={classes.main1}>
-            <Paper elevation={1} className={classes.main2}>
+            <Paper elevation={1} className={classes.main2} onClick={bookdetails}>
                 <Box className={classes.bookimage}>
                     <Box className={classes.bookimage2}>
-                        <img className={classes.bookimg} src={props.book.bookImage}/></Box>
+                        <img className={classes.bookimg} src={props.book.bookImage} alt='book'/></Box>
                 </Box>
                 <Box className={classes.bookdetail}>
                     <Box className={classes.booktext}>

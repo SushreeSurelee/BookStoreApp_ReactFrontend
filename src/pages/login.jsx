@@ -216,7 +216,7 @@ function Login(props){
               <TextField className={classes.emailtext}  onChange={takeEmail} error={regexObj.emailBorder} helperText={regexObj.emailHelper} variant="outlined" size="small" />
             </Box>
             <Box className={classes.texttitle}><span>Password</span>
-              <TextField className={classes.passwordtext} onChange={takePassword} error={regexObj.passwordBorder} helperText={regexObj.passwordHelper} variant="outlined" size="small" />
+              <TextField className={classes.passwordtext} type="password" onChange={takePassword} error={regexObj.passwordBorder} helperText={regexObj.passwordHelper} variant="outlined" size="small" />
               <Button className={classes.texttitle1} size="x-small" variant='text' onClick={forgetPassword}>Forget Password?</Button>
             </Box>
             <Box >

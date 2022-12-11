@@ -1,20 +1,16 @@
 import React from 'react'
 import { makeStyles } from '@mui/styles'
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
 import Button from '@mui/material/Button';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Divider } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import InputBase from '@mui/material/InputBase';
-import RemoveIcon from '@mui/icons-material/Remove';
-import Remove from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
+import { addToCart, addToWishList, getBookById, getFeedback } from '../../services/dataService';
+import PageHeader from '../pageHeader';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useState } from 'react';
-import Add from '@mui/icons-material/Add';
-import Counter from './counter';
-import { addToCart, addToWishList } from '../../services/dataService';
 
 const useStyle = makeStyles({
 
@@ -24,8 +20,6 @@ const useStyle = makeStyles({
         border: '0px solid red',
         display: 'flex',
         alignItems: 'center',
-        marginLeft:'-70px',
-        marginTop:'-35px'
     },
     homebook: {
         display: 'flex',
@@ -133,7 +127,7 @@ const useStyle = makeStyles({
     },
     bookratings1: {
         width: '60%',
-        height: '60%',
+        height: '90%',
         backgroundColor: '#388E3C',
         display: 'flex',
         flexDirection: 'row',
@@ -231,32 +225,62 @@ const useStyle = makeStyles({
 
 function BookDetails (props) {
     const classes = useStyle()
+    const navigate = useNavigate()
+    const bookId = localStorage.getItem("bookid");
+    const [bookObj,setBookObj] = useState ({bookName:'',author:'',bookImage:'',bookRating:0,ratingCount:0,discountPrice:0,actualPrice:0,bookDetail:'',quantity:''})
+    const [feedObj, setFeedObj] = useState([])
 
-    const [cartObj,setcartObj] = useState({bookId:'',cartQuantity:''})
-
-    const addToBag = () => {
-        console.log(props.bookId)
-        addToCart(cartObj).then((response) => {
-          console.log(response, 'added')
-        }).catch((error) =>  console.log(error))
-      }
-
-    const addWishList = () => {
-        console.log(props.bookId)
-        addToWishList(props.bookId).then((response) => {
+    useEffect(() => {
+        getBookById(bookId).then((response) => {
             console.log(response)
-        }).catch((error) => console.log(error))
+            setBookObj(response.data.data)
+        }).catch((error) => {
+            console.log(error)
+        })
+    },[bookId])
+    
+    const cartobj = {"cartQuantity":0,"bookid":0}
+
+    const addToBag = () =>{
+        cartobj.cartQuantity=1
+        cartobj.bookid=Number(localStorage.getItem("bookid"))
+
+        addToCart(cartobj).then((response) => {
+            console.log(response)
+            navigate('/cart')
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
+    const addToWishlist = () => {
+        addToWishList(bookId).then((response) => {
+            console.log(response)
+            navigate('/wishlist')
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+    useEffect(() => {
+        getFeedback(bookId).then((response) => {
+                console.log(response)
+                setFeedObj(response.data.data)
+            }).catch((error) => {
+                console.log(error)
+            })
+    }, [bookId])
+
     const openBook = () => {
-        props.openBookBack()
+        navigate('/dashboard')
     }
  return(
             <Box>
+                <PageHeader/>
                 <Box className={classes.headerbsummary}>
                     <Box className={classes.homebook}>
                         <Box className={classes.home} onClick={()=>openBook()}>Home /</Box>
-                        <Box className={classes.book}> Book {props.bookId}</Box>
+                        <Box className={classes.book}> Book {bookObj.bookId}</Box>
                     </Box>
                 </Box>
 
@@ -266,11 +290,11 @@ function BookDetails (props) {
 
 
                         <Box className={classes.buttons}>
-                            <Box className={classes.bookimg}><img src={props.bookImage} width='85%' height='85%' /></Box>
+                            <Box className={classes.bookimg}><img src={bookObj.bookImage} alt='book' width='85%' height='85%' /></Box>
                             <Box className={classes.bookbtn}>
                                 <Box className={classes.bookbtns}>
                                 <Button onClick={addToBag} variant="contained" className={classes.addbag}>Add to Bag</Button>
-                                <Button onClick={addWishList} variant="contained" className={classes.addfav} >Wishlist</Button>
+                                <Button onClick={addToWishlist} variant="contained" className={classes.addfav} >Wishlist</Button>
                                 </Box>
                             </Box>
                         </Box>
@@ -279,21 +303,21 @@ function BookDetails (props) {
                         <Box className={classes.bookdetails}>
                             <Box className={classes.bookdetails1}>
                                 <Box className={classes.booktitle1}>
-                                 {props.bookName}
+                                 {bookObj.bookName}
                                 </Box>
                                 <Box sx={{ height: '1%' }}></Box>
-                                <Box className={classes.bookauthor1}>{props.author}</Box>
+                                <Box className={classes.bookauthor1}>{bookObj.author}</Box>
                                 <Box sx={{ height: '0.6%' }}></Box>
                                 <Box className={classes.bookpoints1}>
                                     <Box className={classes.bookratings1}>
-                                        <Box sx={{ fontSize: '12px' }}>{props.bookRating}</Box>
+                                        <Box sx={{ fontSize: '12px' }}>{bookObj.bookRating}</Box>
                                         <StarIcon fontSize="10px" sx={{ color: 'white' }} />
                                     </Box>
-                                    <Box className={classes.bookquantity1}>{props.quantity}</Box>
+                                    <Box className={classes.bookquantity1}>{bookObj.quantity}</Box>
                                 </Box>
                                 <Box className={classes.bookprice1}>
-                                    <Box className={classes.bookdiscount1}>Rs.{props.discountPrice}</Box>
-                                    <Box className={classes.bookcost1}>Rs. {props.actualPrice}</Box>
+                                    <Box className={classes.bookdiscount1}>Rs.{bookObj.discountPrice}</Box>
+                                    <Box className={classes.bookcost1}>Rs. {bookObj.actualPrice}</Box>
                                 </Box>
 
                                 <Box sx={{ width: '80%', position: 'relative', top: '15px' }}><Divider sx={{ borderBottomWidth: 1, width: '100%' }} /></Box>
@@ -303,7 +327,7 @@ function BookDetails (props) {
                                     <Box className={classes.para1}>
                                         <span style={{ color: '#878787', display: 'flex', alignItems: 'center' }}> <Box style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: '#878787' }}></Box>&nbsp;Book Detail</span>
                                         <Box className={classes.paratext} sx={{ marginLeft: '9px', fontSize: '12px', opacity: '0.8' }}>
-                                        {props.bookDetail}
+                                        {bookObj.bookDetail}
 
                                         </Box>
                                     </Box>
@@ -320,13 +344,32 @@ function BookDetails (props) {
                                     <Box className={classes.feedbackrate}>
                                         <Box sx={{ fontSize: '14px', height: '18%' }}>Overall rating</Box>
                                         <Box className={classes.stars}>
-                                            <Rating defaultValue={0} size="medium" style={{ color: 'black !important' }} readOnly />
+                                     <Rating
+                                         name="simple-controlled"
+                                         onChange={(event, newValue) => {
+                                             console.log(newValue)
+                                         }}
+                                     />
                                         </Box>
                                         <Box className={classes.inputbase}><InputBase sx={{ marginLeft: '8px' }} placeholder='write your review' />
                                         </Box>
                                         <Box className={classes.feedbackbutton}><Button variant="contained" sx={{ width: '13%', height: '80%', textTransform: 'capitalize' }}>Submit</Button></Box>
                                     </Box>
                                 </Box>
+                                {
+                                    feedObj.map(feed => 
+                                    <Box className={classes.firstfeedback}>
+                                    <Box sx={{ display: 'flex' }}>
+                                        
+                                        <Box sx={{ marginLeft: '8px', fontSize: '15px', fontWeight: '500' }}>{feed.fullName}</Box>
+                                    </Box>
+                                    <Box sx={{ height: '28%', }}>
+                                        <Rating className={classes.stars1} defaultValue={feed.bookRating} size="medium" style={{ color: 'black !important', marginLeft: '35px' }} readOnly />
+                                    </Box>
+                                    <Box sx={{ height: '50%', marginLeft: '35px', fontSize: '12px', textAlign: 'justify', color: '#707070' }}>
+                                        <span >{feed.comment}</span>
+                                    </Box>
+                                </Box>)}
                             </Box>
                         </Box>
                     </Box>

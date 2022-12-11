@@ -5,6 +5,8 @@ import PageHeader from "./components/pageHeader";
 import Books from "./components/books";
 import BookDetails from "./components/bookDetails/bookDetails";
 import './App.css';
+import Cart from "./components/cart/cart";
+import Wishlist from "./components/wishlist/wishlist";
 
 function App() {
   return (
@@ -14,6 +16,9 @@ function App() {
       <Routerone />
       {/* <PageHeader/> */}
       {/* <BookDetails/> */}
+      {/* <Cart/> */}
+
+      {/* <Wishlist/> */}
 
     </div>
   );
