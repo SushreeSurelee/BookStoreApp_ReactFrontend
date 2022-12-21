@@ -7,6 +7,8 @@ import Dashboard from '../dashboard/dashboard';
 import BookDetails from '../../components/bookDetails/bookDetails';
 import Cart from '../../components/cart/cart';
 import Wishlist from '../../components/wishlist/wishlist';
+import Order from '../../components/orders/orders';
+import OrderSuccess from '../../components/orderSucess/orderSucess';
 
 export default function Routerone() {
     return (
@@ -20,6 +22,8 @@ export default function Routerone() {
                   <Route  path='/BookDetail' element={<BookDetails/>}/>
                   <Route  path='/cart' element={<Cart/>}/>
                   <Route  path='/wishlist' element={<Wishlist/>}/>
+                  <Route  path='/orderSummery' element={<Order/>}/>
+                  <Route  path='/orderSucessful' element={<OrderSuccess/>}/>
               </Routes>
           </Router>
       </div>

@@ -27,6 +27,12 @@ export const getCart=() => {
     return response;
 }
 
+export const removeCart = (cartId) => {
+    let response = axios.delete(`https://localhost:44365/api/Cart/Delete?cartId=${cartId}`,headerConfig)
+    console.log(response)
+     return response
+}
+
 export const addToWishList = (bookid) => {
     console.log('bookID',bookid)
     let response = axios.post(`https://localhost:44365/api/Wishlist/AddToWishlist?bookId=${bookid}`,null,headerConfig)
@@ -57,5 +63,28 @@ export const getFeedback=(bookid) => {
     return response;
 }
 
+export const addAddress = (addressObj) => {
+    console.log("addressObj",addressObj)
+    let response = axios.post("https://localhost:44365/api/Address/AddAddress",addressObj,headerConfig)
+    console.log(response)
+    return response
+}
+
+export const getAddress=() => {
+    let response = axios.get("https://localhost:44365/api/Address/Getalladdress",headerConfig);
+    console.log(response)
+    return response;
+}
+
+export const addOrder = (orderObj) => {
+    let response = axios.post("https://localhost:44365/api/Order/AddOrder", orderObj, headerConfig)
+    console.log(response)
+     return response
+}
+export const getOrder=() => {
+    let response = axios.get("https://localhost:44365/api/Order/Getorders",headerConfig);
+    console.log(response)
+    return response;
+}
 
 

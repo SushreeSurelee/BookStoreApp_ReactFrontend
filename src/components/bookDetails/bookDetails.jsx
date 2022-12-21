@@ -313,7 +313,7 @@ function BookDetails (props) {
                                         <Box sx={{ fontSize: '12px' }}>{bookObj.bookRating}</Box>
                                         <StarIcon fontSize="10px" sx={{ color: 'white' }} />
                                     </Box>
-                                    <Box className={classes.bookquantity1}>{bookObj.quantity}</Box>
+                                    <Box className={classes.bookquantity1}>{bookObj.ratingCount}</Box>
                                 </Box>
                                 <Box className={classes.bookprice1}>
                                     <Box className={classes.bookdiscount1}>Rs.{bookObj.discountPrice}</Box>
